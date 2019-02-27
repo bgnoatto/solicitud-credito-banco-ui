@@ -1,0 +1,248 @@
+<p-growl [value]="msgs" life="3000"></p-growl>
+<p-dataTable [value]="solicitudes" [totalRecords]="totalElements"
+           selectionMode="single" [(selection)]="selected"
+             (onLazyLoad)="loadCreditosLazy($event)"
+           [lazy]="true" [rows]="size" [paginator]="true"
+           [style]="{'text-align': 'center'}" #dt>
+  <<p-header>
+    <div class="lista" style="text-align:right">
+      <ul>
+        <li>
+          <button color="accent" md-mini-fab (click)="newSolicitud()"
+                  [disabled]="!filterRole('ROLE_BNA_USER')"
+                  pTooltip="Nueva Solicitud" tooltipPosition="top">
+            <md-icon class="md-24">add</md-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </p-header>>
+  <p-column field="codigoOperacion" header="Codigo" [filter]="true" filterMatchMode="startsWith">
+    <template pTemplate="filter" let-col>
+      <input type="text" pInputText [(ngModel)]="codigoOperacionF"
+             (keyup.enter)="dt.filter($event.value,col.field,col.filterMatchMode)"
+             (blur)="dt.filter($event.value,col.field,col.filterMatchMode)"/>
+    </template>
+    <template let-solicitud="rowData" pTemplate="body">
+      <div style="text-align: left">
+        {{solicitud.codigoOperacion}}
+      </div>
+    </template>
+  </p-column>
+  <p-column field="dniCliente" header="Documento" [filter]="true">
+    <template pTemplate="filter" let-col>
+      <input type="text" pInputText [(ngModel)]="dniF"
+             (keyup.enter)="dt.filter($event.value,col.field,col.filterMatchMode)"
+             (blur)="dt.filter($event.value,col.field,col.filterMatchMode)"/>
+    </template>
+    <template let-solicitud="rowData" pTemplate="body">
+      {{solicitud.dniCliente}}
+    </template>
+  </p-column>
+  <p-column field="nombreCliente" header="Nombre Cliente" [filter]="true">
+    <template pTemplate="filter" let-col>
+      <input type="text" pInputText [(ngModel)]="nombreClienteF"
+             (keyup.enter)="dt.filter($event.value,col.field,col.filterMatchMode)"
+             (blur)="dt.filter($event.value,col.field,col.filterMatchMode)"/>
+    </template>
+    <template let-solicitud="rowData" pTemplate="body">
+      <div style="text-align: left">
+        {{solicitud.nombreCliente}}
+      </div>
+    </template>
+  </p-column>
+  <p-column field="sexoCliente" header="Sexo" [style]="{'overflow':'visible'}"></p-column>
+  <p-column field="monto" header="Monto">
+    <template let-solicitud="rowData" pTemplate="body">
+      <div style="text-align: right">
+        {{"$ "+solicitud.monto}}
+      </div>
+    </template>
+  </p-column>
+  <p-column field="codigoLocal" header="Local">
+    <template pTemplate="filter" let-col>
+      <input type="number" pInputText [(ngModel)]="codigoLocalF"
+             *ngIf="filterRole('ROLE_BNA_CONTROLLER')"
+             (keyup.enter)="dt.filter($event.value,col.field,col.filterMatchMode)"
+             (blur)="dt.filter($event.value,col.field,col.filterMatchMode)"/>
+    </template>
+    <template let-solicitud="rowData" pTemplate="body">
+      <div style="text-align: right">
+        {{solicitud.codigoLocal}}
+      </div>
+    </template>
+  </p-column>
+  <p-column field="legajoCajero" header="Legajo" filterMatchMode="equals">
+    <template pTemplate="filter" let-col>
+      <input type="number" pInputText [(ngModel)]="legajoCajeroF"
+             *ngIf="filterRole('ROLE_BNA_CONTROLLER')"
+             (keyup.enter)="dt.filter($event.value,col.field,col.filterMatchMode)"
+             (blur)="dt.filter($event.value,col.field,col.filterMatchMode)"/>
+    </template>
+    <template let-solicitud="rowData" pTemplate="body">
+      <div style="text-align: right">
+        {{solicitud.legajoCajero}}
+      </div>
+    </template>
+  </p-column>
+  <p-column field="estado" header="Estado" [filter]="true" [style]="{'overflow':'visible'}"
+            filterMatchMode="equals">
+    <template pTemplate="filter" let-col>
+      <p-dropdown [options]="estados" [(ngModel)]="estadoF" [style]="{'width':'100%'}" (onFocus)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+    </template>
+    <template let-solicitud="rowData" pTemplate="body">
+      {{solicitud.estado | descripcionEstado}}
+    </template>
+  </p-column>
+  <p-column field="fecha" header="Fecha Alta" [filter]="true" [style]="{'overflow':'visible'}">
+    <template pTemplate="filter" let-col>
+      <p-calendar [(ngModel)]="fechaSelected" (onSelect)="dt.filter($event.value,col.field,col.filterMatchMode)"
+                    [locale]="es" dateFormat="dd-mm-yy">
+      </p-calendar>
+    </template>
+    <template pTemplate="body" let-solicitud="rowData">
+      {{solicitud.fecha | date: 'dd-MM-yyyy'}}
+    </template>
+  </p-column>
+  <p-column header="Acciones" [style]="{'overflow':'visible'}">
+    <template pTemplate="header" let-col>
+      <div class="lista">
+        <ul>
+          <li>
+            <button md-icon-button pTooltip="Buscar" tooltipPosition="top"
+                    class="btn-floating" (click)="loadCreditosLazy($event)">
+              <md-icon>search</md-icon>
+            </button>
+          </li>
+          <li>
+            <button md-icon-button pTooltip="Limpiar" tooltipPosition="top"
+                    class="btn-floating" (click)="limpiarFiltro($event)">
+              <md-icon>autorenew</md-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </template>
+    <template let-solicitud="rowData" pTemplate="body">
+      <div class="lista">
+        <ul>
+          <li *ngIf="habilitarEdicion(solicitud)" [is-role]="'ROLE_BNA_USER'">
+            <button md-icon-button pTooltip="Editar" tooltipPosition="top"
+                    class="btn-floating" (click)="onSelect(solicitud)">
+              <md-icon>edit</md-icon>
+            </button>
+          </li>
+          <li *ngIf="borrable(solicitud)" [is-role]="'ROLE_BNA_USER'">
+            <button md-icon-button pTooltip="Borrar" tooltipPosition="top"
+                    class="btn-floating blue" (click)="confirmBorrar(solicitud,$event)">
+              <md-icon>delete</md-icon>
+            </button>
+          </li>
+          <li *ngIf="habilitarCambioEstado(solicitud)" [is-role]="'ROLE_BNA_USER,ROLE_BNA_CONTROLLER'">
+            <button md-icon-button pTooltip="Cambiar Estado" tooltipPosition="top"
+                    *ngIf="!popupEstadoMulti(solicitud)" class="btn-floating blue"
+                    (click)="popupCambiarEstado(solicitud,false)">
+              <md-icon>trending_flat</md-icon>
+            </button>
+            <button md-icon-button pTooltip="Cambiar Estado" tooltipPosition="top"
+                    *ngIf="popupEstadoMulti(solicitud)" class="btn-floating blue"
+                    (click)="popupCambiarEstado(solicitud,true)">
+              <md-icon>trending_flat</md-icon>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </template>
+  </p-column>
+</p-dataTable>
+
+<p-dialog header="Confirmar Cambio de Estado" [(visible)]="display">
+  <div class="listaEstado" style="text-align:center">
+    <ul>
+      <li>¿Cambiar a estado {{estadoPopup | descripcionEstado | capitalizeString}}?</li>
+      <br><br>
+    </ul>
+    <ul>
+      <li>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState(estadoPopupChange)">Aceptar</button>
+        <button md-raised-button type="button" (click)="closePopups()">Cancelar</button>
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+<p-dialog header="Confirmar Cambio de Estado" [(visible)]="displayEnvBanco">
+  <div class="lista" style="text-align:center">
+    <ul>
+      <li>Elija un Estado</li>
+      <br><br>
+    </ul>
+    <ul>
+      <li>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('RECHAZADO')">Rechazado</button>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('PARA_RECTIFICAR')">Para Rectificar</button>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('CONCILIADO')">Conciliado</button>
+        <button md-raised-button type="button" (click)="closePopups()">Cancelar</button>
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+<p-dialog header="Confirmar Cambio de Estado" [(visible)]="displayFacturado">
+  <div class="lista" style="text-align:center">
+    <ul>
+      <li>Elija un Estado</li>
+      <br><br>
+    </ul>
+    <ul>
+      <li>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('ENVIADO_RIESGO')">Enviar a Riesgo</button>
+        <!-- <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('ANULADO')">Anular</button> -->
+        <button md-raised-button type="button" (click)="closePopups()">Cancelar</button>
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+<p-dialog header="Confirmar Cambio de Estado" [(visible)]="displayEnvRiesgo">
+  <div class="lista" style="text-align:center">
+    <ul>
+      <li>Elija un Estado</li>
+      <br><br>
+    </ul>
+    <ul>
+      <li>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('RECIBIDO_RIESGO')">Recibido de Riesgo</button>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('ANULADO')">Anular</button>
+        <button md-raised-button type="button" (click)="closePopups()">Cancelar</button>
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+<p-dialog header="Confirmar Cambio de Estado" [(visible)]="displayRecRiesgo">
+  <div class="lista" style="text-align:center">
+    <ul>
+      <li>Elija un Estado</li>
+      <br><br>
+    </ul>
+    <ul>
+      <li>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('ENVIADO_BANCO')">Enviar al Banco</button>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="tranfersOnChangeState('ANULADO')">Anular</button>
+        <button md-raised-button type="button" (click)="closePopups()">Cancelar</button>
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+<p-dialog header="Eliminar solicitud de credito" [(visible)]="displayBorrar">
+  <div class="listaEstado" style="text-align:center">
+    <ul>
+      <li>¿Quiere eliminar el credito {{codCredDelete}}?</li>
+      <br><br>
+    </ul>
+    <ul>
+      <li>
+        <button md-raised-button type="button" class="btnLeft" color="primary" (click)="borrar(solicitudBorrar,eventBorrar)">Aceptar</button>
+        <button md-raised-button type="button" (click)="closePopups()">Cancelar</button>
+      </li>
+    </ul>
+  </div>
+</p-dialog>
+<ng2-slim-loading-bar [color]="'#2196F3'" [height]="'6px'"></ng2-slim-loading-bar>

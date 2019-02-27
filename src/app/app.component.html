@@ -1,0 +1,72 @@
+<p-growl [value]="msgs" life="2000"></p-growl>
+<md-toolbar color="primary">
+  <button md-button (click)="openSidevar(start)"><md-icon>menu</md-icon></button>
+
+  <span>Solicitud Credito Banco Nacion</span>
+  <span class="example-fill-remaining-space"></span>
+  <!--button md-icon-button [md-menu-trigger-for]="menu">
+    <md-icon>more_vert</md-icon>
+  </button-->
+  <h5 *ngIf='disponible'>Saldo: ${{disponible}}</h5>
+</md-toolbar>
+
+<md-sidenav-container class="demo-sidenav-layout">
+  <md-sidenav #start (open)="closeStartButton.focus()">
+    <div class="m-mobile-menu">
+      <div class="m-mobile-menu-header">
+        <div class="m-mobile-menu-logo"><img src="../assets/img/logo.png" height="44px" width="44px"></div>
+        <div class="m-mobile-menu-user">
+          <a href="#"  class="myaccount-user-logged norma-logged" style="display: none;">
+            <span class="m-mobile-menu-username"><span id="menu-username">Iniciar sesión</span></span>
+            <span  class="gb-mobile-menu-mail">Mi cuenta</span>
+            <div *ngIf='user'>
+              <span  class="gb-mobile-menu-mail">{{user.name}}</span>
+            </div>
+          </a>
+          <div class="myaccount-user-not-logged norma-not-logged">
+            <span class="gb-mobile-menu-myaccount-title">{{usrName}}</span>
+            <div class="gb-mobile-menu-logoptions">
+              <div *ngIf='user'>
+                <button md-button (click)="logout(start)">Logout</button>
+              </div>
+              <div  *ngIf='user==null'>
+                <button md-button (click)="getUser()">Ingresar</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <md-nav-list>
+      <md-list-item>
+        <button md-icon-button #closeStartButton (click)="start.close()">
+          <md-icon>undo</md-icon>
+        </button>
+      </md-list-item>
+      <md-list-item  routerLink="/solicitudes" (click)="start.close()">Solicitudes</md-list-item>
+      <md-list-item  routerLink="/userdetail" (click)="start.close()">Usuario</md-list-item>
+      <md-list-item  routerLink="/acercade" (click)="start.close()">AcercaDe</md-list-item>
+    </md-nav-list>
+  </md-sidenav>
+
+  <!--button md-button (click)="end.open()">Open end sidenav</button-->
+  <div class="demo-sidenav-content">
+    <router-outlet></router-outlet>
+    <!--pedidos-status></pedidos-status-->
+  </div>
+  <footer class="mdl-mini-footer myfooter">
+    <div class="mdl-mini-footer__left-section">
+
+      <ul class="mdl-mini-footer__link-list">
+        <li><img src="../assets/img/logo-footer.png" alt="Grupo Carsa" class="mdl-logo"></li>
+        <li><a href="mailto:vtadesarrollo@grupocarsa.com">Soporte</a></li>
+        <li *ngIf="local"><span>Local: {{local}}</span></li>
+        <li><span>{{envname}}</span></li>
+        <li><span>{{versionPjson}}</span></li>
+      </ul>
+    </div>
+  </footer>
+
+</md-sidenav-container>

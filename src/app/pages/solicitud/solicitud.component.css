@@ -1,0 +1,41 @@
+.row-cantidad {
+  width: 5%;
+}
+.row-codigo {
+  width: 10%;
+}
+.row-descripcion {
+  width: 80%;
+}
+.row-entrega {
+  width: 5%;
+}
+
+.formulario{
+  width: 100%;
+  padding: 0px;
+}
+.cart-content{
+  margin:20px;
+}
+
+#solicitudForm{
+  width: 600px;
+}
+
+.btnBuscar{
+  height: 35px;
+}
+
+.ui-growl-item-container.ui-state-highlight.ui-growl-message-error
+{
+  background-color: #D1030F;
+  border-color: #D1030F;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}

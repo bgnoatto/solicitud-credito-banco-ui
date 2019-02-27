@@ -1,0 +1,156 @@
+<div class="mdl-grid" *ngIf="solicitud">
+  <div class="mdl-layout-spacer"></div>
+
+  <form id="solicitudForm" [formGroup]="solicitudForm" *ngIf="active"  (ngSubmit)="onSubmit()">
+
+    <md-card class="formulario">
+      <md-toolbar color="primary">
+        {{editar}} Credito: {{solicitud.codigoOperacion}}
+        <span class="example-fill-remaining-space"></span>
+      </md-toolbar>
+      <md-card-content class="cart-content" >
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+              <md-input-container *ngIf="editCodOpe">
+                <input mdInput placeholder="COD. OPERACION" id="codigoOperacion" class="form-control"
+                       [(ngModel)]="solicitud.codigoOperacion"
+                       (blur)="existeCodigoOperacion(solicitud.codigoOperacion)"
+                       formControlName="codigoOperacion" autofocus required>
+              </md-input-container>
+              <md-input-container *ngIf="!editCodOpe">
+                <input mdInput placeholder="COD. OPERACION" value="{{solicitud.codigoOperacion}}" disabled>
+              </md-input-container>
+
+              <div>
+                <div *ngIf="flagExisteCodigo" class="alert alert-danger">
+                  Ya EXISTE este codigo de operacion
+                </div>
+              </div>
+            </div>
+            <div class="ui-grid-col-2">
+              <md-input-container>
+                <input mdInput placeholder="CUOTAS" align="end" disabled type="number" class="form-control"
+                       value="{{solicitud.cuotas}}">
+              </md-input-container>
+
+            </div>
+            <div class="ui-grid-col-4">
+              <md-input-container>
+                <input mdInput align="end" placeholder="MONTO($)" id="monto" class="form-control" type="number"
+                       step="any" [(ngModel)]="solicitud.monto" formControlName="monto" (blur)="mayorDisponible()" required>
+              </md-input-container>
+
+              <div >
+                <div *ngIf="flagMonto" class="alert alert-danger">
+                  No puede superar al disponible.
+                </div>
+              </div>
+              <div >
+                <div *ngIf="flagMontoLimite" class="alert alert-danger">
+                  El Monto debe estar entre $5000 y $80000
+                </div>
+              </div>
+              <div class="ui-grid-col-4">
+                <div *ngIf="formErrors.monto" class="alert alert-danger">
+                  {{ formErrors.monto }}
+                </div>
+              </div>
+            </div>
+            <div class="ui-grid-col-2">
+              <md-input-container>
+                <input mdInput placeholder="FECHA" disabled value="{{solicitud.fecha | date: 'dd/MM/yyyy'}}">
+              </md-input-container>
+
+            </div>
+          </div>
+
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-4">
+              <div *ngIf="formErrors.codigoOperacion" class="alert alert-danger">
+                {{ formErrors.codigoOperacion }}
+              </div>
+            </div>
+
+          </div>
+
+          <p-fieldset legend="Cliente: {{solicitud.nombreCliente}}">
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-8">
+                <md-input-container>
+                  <input mdInput placeholder="DOCUMENTO" id="dniCliente" class="form-control"
+                         formControlName="dniCliente" required style="width: 80%;">
+                </md-input-container>
+
+              </div>
+              <div class="ui-grid-col-4">
+                <md-select  placeholder="SEXO" formControlName="sexoCliente"
+                            class="form-control" required style="margin-top: 10px;" >
+                  <md-option *ngFor="let gender of generos" [value]="gender.value">
+                    {{gender.label}}
+                  </md-option>
+                </md-select>
+              </div>
+              <button md-raised-button color="primary" class="btnBuscar" type="button" (click)="cargarCliente()">BUSCAR</button>
+            </div>
+
+            <!--div class="ui-grid-row">
+              <div class="ui-grid-col-12">
+                <md-input placeholder="NOMBRE"  id="nombreCliente" class="form-control"
+                          formControlName="nombreCliente" required style="width: 100%;" [value]="solicitud.nombreCliente"></md-input>
+              </div>
+            </div-->
+
+            <div class="ui-grid-row">
+              <div class="ui-grid-col-12">
+                <div *ngIf="formErrors.dniCliente" class="alert alert-danger">
+                  {{ formErrors.dniCliente }}
+                </div>
+                <div class="ui-grid-col-12">
+                  <div *ngIf="formErrors.sexoCliente" class="alert alert-danger">
+                    {{ formErrors.sexoCliente }}
+                  </div>
+                </div>
+                <div class="ui-grid-col-12">
+                  <div *ngIf="formErrors.nombreCliente" class="alert alert-danger">
+                    {{ formErrors.nombreCliente }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </p-fieldset>
+
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+              <!--md-textarea style="width: 100%" class="demo-full-width"  placeholder="OBSERVACIONES"
+                           [(ngModel)]="solicitud.observaciones" formControlName="observaciones"></md-textarea-->
+              <md-input-container>
+                <textarea  mdInput style="width: 550px" class="demo-full-width"  placeholder="OBSERVACIONES"
+                       [(ngModel)]="solicitud.observaciones" formControlName="observaciones"></textarea>
+              </md-input-container>
+            </div>
+          </div>
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+              <div *ngIf="formErrors.observaciones" class="alert alert-danger">
+                {{ formErrors.observaciones }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <md-card-actions align="end">
+          <div *ngIf="habilitarGuardar()">
+            <button md-raised-button color="primary" type="submit" [disabled]="this.bloqSave">GUARDAR</button>
+            <!-- [disabled]="bloqSave" -->
+          </div>
+          <button md-raised-button type="button" (click)="gotoSolicitudStatus()">CANCELAR</button>
+        </md-card-actions>
+      </md-card-content>
+    </md-card>
+  </form>
+  <div class="mdl-layout-spacer"></div>
+</div>
+<ng2-slim-loading-bar [color]="'black'" [height]="'6px'"></ng2-slim-loading-bar>
+

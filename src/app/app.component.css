@@ -1,0 +1,113 @@
+
+md-card {
+  max-width: 80%;
+  margin: 2em auto;
+  text-align: center;
+}
+
+md-toolbar-row {
+  justify-content: space-between;
+}
+
+.done {
+  position: fixed;
+  bottom: 50px;
+  right: 30px;
+  color: white;
+}
+
+.example-fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+md-sidenav {
+  width: 200px;
+}
+
+.demo-sidenav-layout {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background-image: url(../assets/img/background.png);
+  background-repeat: repeat;
+  background-color: #dedede;
+}
+
+.demo-sidenav-content {
+  padding: 15px;
+  min-height:90%;
+}
+
+.mdl-grid {
+  padding: 0!important;
+}
+
+.mdl-cell {
+  /*background: #3d07bd;*/
+  padding: 5px 0;
+  text-align: center;
+  color: #424242;
+  font-weight: bold;
+}
+
+.m-mobile-menu .m-mobile-menu-header {
+  height: 70px;
+  padding: 20px 15px 15px 55px;
+  background-color: #D1030F;
+  border-bottom: 1px solid #900000;
+  position: relative;
+  background-image: url(../assets/img/menu-background2.svg);
+  background-repeat: repeat;
+  background-size: auto 130px;
+  background-position: 0 -8px;
+}
+
+.m-mobile-menu .m-mobile-menu-logo {
+
+  display: block;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  text-align: center;
+  padding-top: 7px;
+}
+
+.m-mobile-menu .m-mobile-menu-user {
+  font-size: 14px;
+  color: #fff;
+  padding: 0 10px 0;
+  position: relative;
+  margin-left: 10px;
+}
+
+.m-mobile-menu .m-mobile-menu-user a {
+  color: white;
+}
+
+.m-mobile-menu .m-mobile-menu-user .myaccount-user-not-logged {
+  font-size: 0.9em;
+  text-transform: uppercase;
+}
+
+.m-mobile-menu .m-mobile-menu-user .myaccount-user-not-logged .m-mobile-menu-myaccount-title {
+  font-weight: 700;
+}
+
+.m-mobile-menu .m-mobile-menu-user .myaccount-user-not-logged .m-mobile-menu-myaccount-title {
+  font-weight: 700;
+}
+
+.myfooter {
+  margin-bottom: 50px;
+}
+
+
+.ui-datatable-empty-message {
+  min-height: 300px;
+}
+
+
+
+

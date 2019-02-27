@@ -1,0 +1,53 @@
+<div class="backgroundmusimundo">
+<div class="mdl-grid">
+  <div class="mdl-layout-spacer"></div>
+  <div class="mdl-cell mdl-cell--4-col">
+    <md-card class="demo-card demo-basic"   >
+      <md-toolbar color="primary">
+        LOG IN
+      </md-toolbar>
+      <md-card-content>
+        <div class="formulario">
+          <form id="authForm" [formGroup]="authForm" *ngIf="active" (ngSubmit)="login($event, username.value, password.value)">
+            <div class="ui-grid-row">
+              <md-input-container>
+                <input mdInput #username  placeholder="Usuario" class="form-control" id="username"
+                formControlName="username">
+              </md-input-container>
+
+              <div *ngIf="formErrors.username" class="alert alert-danger">
+                {{ formErrors.username }}
+              </div>
+
+            </div>
+            <div class="ui-grid-row">
+              <md-input-container>
+                <input mdInput  #password type="password" #password class="form-control" id="password" placeholder="Password"
+                       formControlName="password">
+              </md-input-container>
+
+              <div *ngIf="formErrors.password" class="alert alert-danger">
+                {{ formErrors.password }}
+              </div>
+            </div>
+
+
+            <div class="ui-grid-row alert alert-danger">
+                <span class="error-msg" *ngIf="badCredentials" primary>El usuario o la contraseña ingresados son invalidos.</span>
+            </div>
+            <br/>
+            <button md-raised-button type="submit">Ingresar</button>
+          </form>
+        </div>
+
+        <div *ngIf="user">
+            <button ion-button icon-left clear item-right (click)="logout()">
+              Salir
+            </button>
+        </div>
+      </md-card-content>
+    </md-card>
+  </div>
+  <div class="mdl-layout-spacer"></div>
+</div>
+</div>

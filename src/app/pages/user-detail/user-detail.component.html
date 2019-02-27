@@ -1,0 +1,51 @@
+<div class="mdl-grid">
+  <div class="mdl-layout-spacer"></div>
+  <div class="mdl-cell mdl-cell--4-col">
+    <md-card class="demo-card demo-basic"   >
+      <md-toolbar color="primary">
+        Usuario:
+      </md-toolbar>
+      <md-card-content>
+
+
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px" *ngIf="user">
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-8">
+              <md-input-container>
+                <input mdInput placeholder="Nombre" id="nombre" class="form-control"  [value]="user.name"
+                       disabled="true">
+              </md-input-container>
+            </div>
+            <div class="ui-grid-col-4">
+              <md-input-container>
+                <input mdInput placeholder="Legajo" id="legajo" class="form-control"
+                       [value]="user.code"
+                       disabled="true">
+              </md-input-container>
+            </div>
+          </div>
+
+          <div class="ui-grid-row">
+
+            <div class="ui-grid-col-8">
+              <md-input-container>
+                <input mdInput placeholder="Email" id="email" class="form-control"
+                       [value]="user.email"
+                       disabled="true">
+              </md-input-container>
+            </div>
+            <div class="ui-grid-col-4">
+              <md-input-container>
+                <input mdInput placeholder="Local" id="store" class="form-control"
+                       [value]="user.storeCode"
+                       disabled="true">
+              </md-input-container>
+            </div>
+          </div>
+        </div>
+      </md-card-content>
+    </md-card>
+  </div>
+  <div class="mdl-layout-spacer"></div>
+</div>
+

@@ -1,0 +1,20 @@
+{
+	"/sso": {
+		"target": "http://10.4.101.107:18001",
+		"secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+	},
+	"/api/v1/creditobanco": {
+		"target": "http://10.4.101.107:8093",
+		"secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+	},
+	"/public/cliente": {
+		"target": "http://10.4.101.160:8150",
+		"secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+	}
+}

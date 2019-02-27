@@ -1,0 +1,29 @@
+md-card {
+  padding: 0px;
+}
+
+md-toolbar {
+  background-color: #2196F3;
+}
+
+md-input-container {
+  width: 100%;
+  padding-bottom: 5px;
+}
+
+button{
+  background-color: #2196F3;
+  width: 100%;
+  color: white;
+}
+
+.formulario{
+  text-align: center;
+  padding: 30px;
+}
+
+.alert {
+  color: red;
+}
+
+

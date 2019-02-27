@@ -1,0 +1,66 @@
+p-calendar span input{
+  width: 100%;
+}
+
+input{
+  width: 100%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.ui-growl-item-container.ui-state-highlight.ui-growl-message-error
+{
+  background-color: #D1030F;
+  border-color: #D1030F;
+}
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only.ui-state-hover{
+  background: white;
+}
+
+.btnLeft{
+  margin-right: 3px;
+}
+
+.btnRight{
+  margin-left: 3px;
+}
+
+.lista ul
+{
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin: 0px;
+}
+.lista li
+{
+  list-style-type: none;
+  display: inline;
+  padding-right: 3px;
+  margin-top: 5px;
+}
+
+.listaEstado ul
+{
+  padding-right: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  margin: 0px;
+  width: 250px;
+}
+.listaEstado li
+{
+  list-style-type: none;
+  display: inline;
+  padding-right: 3px;
+  margin-top: 5px;
+}
+
